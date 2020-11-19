@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private static final String template = "Hello:  %s";
-    private final AtomicLong counter = new AtomicLong();
-
 
     @GetMapping("/")
     public String start() {
         return "Start";
     }
 
-    @PostMapping("/user")
-    public User user(@RequestBody User usuario) {
-        return usuario;
+    @RequestMapping("/user")
+    public User addUser(@RequestBody User usuario) {
+        return new User(usuario.getId(), usuario.getContent());
     }
+
+
 }
