@@ -10,7 +10,14 @@ public class ReplicatedBackupApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(ReplicatedBackupApplication.class, args);
 		Writer w = new Writer();
+		MulticastServer server = new MulticastServer();
+		MulticastClient client = new MulticastClient();
+		client.run();
 		w.write("escrevendo");
+		server.sendUDPMessage("Teste 1!");
+		server.sendUDPMessage("Teste 2!");
+		server.sendUDPMessage("Teste 3!");
 	}
 
 }
+
