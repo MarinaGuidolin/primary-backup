@@ -91,5 +91,27 @@ public class MulticastClient extends Thread {
         System.out.println(content);
         return content;
     }
-    
+
+    public void update(String content) throws IOException  {
+        BufferedReader reader = new BufferedReader(new FileReader(currentDirectory + "/" +  Long.toString(this.current) + "file.txt"));
+        StringBuffer inputBuffer = new StringBuffer();
+        String uuid = "";
+        String line; 
+        while((line = reader.readLine()) != null) {
+            if(!line.contains(content)){
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+            }
+            uuid = line.substring(16,28);
+        }
+        reader.close();
+        String inputString = inputBuffer.toString();
+        FileOutputStream fileOut = new FileOutputStream(currentDirectory + "/" +  Long.toString(this.current) + "file.txt");
+        fileOut.write(inputString.getBytes());
+        fileOut.close();      
+            
+        write("Request number: "+uuid+" "+content);
+
+        
+    }
 }
