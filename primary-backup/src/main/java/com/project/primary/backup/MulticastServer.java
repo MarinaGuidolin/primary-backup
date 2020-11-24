@@ -1,8 +1,11 @@
-package com.project.replicatedbackup;
+package com.project.primary.backup;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+
+import java.util.ArrayList;
 
 public class MulticastServer {
 
@@ -16,9 +19,10 @@ public class MulticastServer {
         System.out.println("Mensagem Foi enviada!");
     }
 
-    public static void createMSG(String content, String uuid) throws IOException {
-        final String flag = "Replica";
-        String msg = uuid.concat(",").concat(content).concat(",").concat(flag);
+    public static void createMSG(String type, String content, String uuid) throws IOException {
+        final String flag = "Master";
+        String msg = uuid.concat(",").concat(type).concat(",").concat(content).concat(",").concat(flag);
+        //System.out.println(msg);
         sendMessage(msg);
     }
 

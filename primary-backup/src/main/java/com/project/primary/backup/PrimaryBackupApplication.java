@@ -8,6 +8,11 @@ public class PrimaryBackupApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PrimaryBackupApplication.class, args);
+
+		//inicialiar a escuta de dados multicast
+		new MulticastClient().start();
 	}
+
+
 
 }

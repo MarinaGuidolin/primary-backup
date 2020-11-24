@@ -15,9 +15,6 @@ public class ReplicatedBackupApplication {
 		new MulticastClient().start();
 		
 		w.write("escrevendo");
-		server.sendUDPMessage("Teste 1!");
-		server.sendUDPMessage("Teste 2!");
-		server.sendUDPMessage("Teste 3!");
 	}
 
 }

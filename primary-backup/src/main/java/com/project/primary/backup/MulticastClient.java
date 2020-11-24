@@ -1,4 +1,4 @@
-package com.project.replicatedbackup;
+package com.project.primary.backup;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -6,8 +6,6 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 public class MulticastClient extends Thread {
-
-    final String msgOK = "OK";
 
     public void receiveMessage() throws IOException {
         byte[] buffer=new byte[1024];
@@ -23,6 +21,7 @@ public class MulticastClient extends Thread {
            packet.getOffset(),packet.getLength());
            tratarMsg(msg);
            if("OK".equals(msg)) {
+              System.out.println("No more message. Exiting : "+msg);
               break;
            }
         }
@@ -39,27 +38,17 @@ public class MulticastClient extends Thread {
         }
     }
 
-    public void tratarMsg(String msg) throws IOException {
+    public void tratarMsg(String msg){
         //devolver o formato normal da msg
-        //String msg = uuid.concat(",").concat(type).concat(",").concat(content).concat(",").concat(flag);
-        //1606187186557,normal,UserID: 1 User's name: teste,Master
-        //System.out.println(msg);
+        //String msg = uuid.concat(",").concat(content).concat(",").concat(flag);
         String msgO[] = msg.split(",");
-        if(msgO.length > 3){
-            String uuid, type, content, flag;
-            uuid = msgO[0];
-            type = msgO[1];
-            content = msgO[2];
-            flag = msgO[3];
-            if("Master".equals(flag)){
-                System.out.println("Dando tratamento à msg: "+uuid);
-                //confirmo o recebimento e arquivamento da msg enviando OK de volta
-                MulticastServer server = new MulticastServer();
-                server.createMSG(msgOK,uuid);
-            }
+        String uuid, content, flag;
+        uuid = msgO[0];
+        content = msgO[1];
+        flag = msgO[2];
+        if("Replica".equals(flag)){
+            System.out.println("MSG "+uuid+" Recebida e confirmada!");
         }
-        //se for replica, só ignora a msg
     }
-    
     
 }
