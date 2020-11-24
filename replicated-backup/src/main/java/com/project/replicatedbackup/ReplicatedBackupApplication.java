@@ -8,8 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ReplicatedBackupApplication {
 
 	public static void main(String[] args) throws IOException {
+		long current = System.currentTimeMillis();
 		SpringApplication.run(ReplicatedBackupApplication.class, args);
-		Writer w = new Writer();
+		Writer w = new Writer(current);
 		MulticastServer server = new MulticastServer();
 		new MulticastClient().start();
 		
