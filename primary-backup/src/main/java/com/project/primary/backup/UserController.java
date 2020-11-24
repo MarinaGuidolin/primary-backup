@@ -22,17 +22,22 @@ public class UserController {
     @RequestMapping("/user")
     public User addUser(@RequestBody User user) throws IOException {
         String uuid = ""+System.currentTimeMillis();
+        String content = write(user, uuid);
+        sendMessage("normal", content, uuid);
+        return user;
+    }
 
+    public String write(User user, String uuid) throws IOException {
         FileWriter writer = new FileWriter(currentDirectory + "/file.txt", true);
         String content = "UserID: " + user.getId() + " User's name: " + user.getContent();
         writer.write("Request number: " + uuid + " " + content);
         writer.write("\n");
         writer.close();
+        return content;
+    }
 
-        //enviar msg para as replicas
+    public void sendMessage(String message, String content, String uuid) throws IOException {
         server.createMSG("normal", content, uuid);
-
-        return user;
     }
     
 }
