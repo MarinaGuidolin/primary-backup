@@ -11,8 +11,8 @@ public class ReplicatedBackupApplication {
 		SpringApplication.run(ReplicatedBackupApplication.class, args);
 		Writer w = new Writer();
 		MulticastServer server = new MulticastServer();
-		MulticastClient client = new MulticastClient();
-		client.run();
+		new MulticastClient().start();
+		
 		w.write("escrevendo");
 		server.sendUDPMessage("Teste 1!");
 		server.sendUDPMessage("Teste 2!");
