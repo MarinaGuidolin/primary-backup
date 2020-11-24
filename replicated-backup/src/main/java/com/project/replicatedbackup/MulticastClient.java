@@ -1,8 +1,6 @@
 package com.project.replicatedbackup;
 
-import java.io.IOException;
-import java.io.FileWriter;
-import java.io.Writer;
+import java.io.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -76,6 +74,7 @@ public class MulticastClient extends Thread {
                 //por hora apenas chamo o metodo e gravo
                 String contentMsg = "Request number: "+uuid+" "+content;
                 write(contentMsg);
+                //update(content); // sem o request number, apenas id de usuario e usuario
                 MulticastServer server = new MulticastServer();
                 server.createMSG(msgOK,uuid);
             }
@@ -89,8 +88,8 @@ public class MulticastClient extends Thread {
         writer.write(content);
         writer.write("\n");
         writer.close();
+        System.out.println(content);
         return content;
     }
-    
     
 }

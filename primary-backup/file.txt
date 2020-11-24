@@ -1,2 +1,0 @@
-Request number: 1606229641391 UserID: 10 User's name: weslley
-Request number: 1606229666512 UserID: 100 User's name: fulano
