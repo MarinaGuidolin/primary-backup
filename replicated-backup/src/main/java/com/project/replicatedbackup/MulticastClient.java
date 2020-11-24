@@ -1,6 +1,8 @@
 package com.project.replicatedbackup;
 
 import java.io.IOException;
+import java.io.FileWriter;
+import java.io.Writer;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
@@ -8,6 +10,8 @@ import java.net.MulticastSocket;
 public class MulticastClient extends Thread {
 
     final String msgOK = "OK";
+    String currentDirectory = System.getProperty("user.dir");
+    long current = System.currentTimeMillis();
 
     public void receiveMessage() throws IOException {
         byte[] buffer=new byte[1024];
@@ -44,6 +48,7 @@ public class MulticastClient extends Thread {
         //String msg = uuid.concat(",").concat(type).concat(",").concat(content).concat(",").concat(flag);
         //1606187186557,normal,UserID: 1 User's name: teste,Master
         //System.out.println(msg);
+        long current = System.currentTimeMillis();
         String msgO[] = msg.split(",");
         if(msgO.length > 3){
             String uuid, type, content, flag;
@@ -54,11 +59,37 @@ public class MulticastClient extends Thread {
             if("Master".equals(flag)){
                 System.out.println("Dando tratamento à msg: "+uuid);
                 //confirmo o recebimento e arquivamento da msg enviando OK de volta
+                switch(type){
+                    case "post":
+                        System.out.println("Msg POST");
+                        break;
+                    case "put":
+                        System.out.println("Msg PUT");
+                        break;
+                    case "delete":
+                        System.out.println("Msg Delete");
+                        break;
+                    case "get":
+                        System.out.println("Msg GET");
+                        break;
+                }
+                //por hora apenas chamo o metodo e gravo
+                String contentMsg = "Request number: "+uuid+" "+content;
+                write(contentMsg);
                 MulticastServer server = new MulticastServer();
                 server.createMSG(msgOK,uuid);
             }
         }
         //se for replica, só ignora a msg
+    }
+
+    public String write(String content) throws IOException {
+        
+        FileWriter writer = new FileWriter(currentDirectory + "/" +  Long.toString(this.current) + "file.txt", true);
+        writer.write(content);
+        writer.write("\n");
+        writer.close();
+        return content;
     }
     
     

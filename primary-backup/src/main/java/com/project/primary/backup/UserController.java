@@ -23,7 +23,7 @@ public class UserController {
     public User addUser(@RequestBody User user) throws IOException {
         String uuid = ""+System.currentTimeMillis();
         String content = write(user, uuid);
-        sendMessage("normal", content, uuid);
+        sendMessage("post", content, uuid);
         return user;
     }
 
@@ -36,8 +36,9 @@ public class UserController {
         return content;
     }
 
-    public void sendMessage(String message, String content, String uuid) throws IOException {
-        server.createMSG("normal", content, uuid);
+    public void sendMessage(String type, String content, String uuid) throws IOException {
+        //type -> post, put, delete, get
+        server.createMSG(type, content, uuid);
     }
     
 }
